@@ -1,0 +1,416 @@
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:tns="http://service.fiesc.com.br/serviceSchema/pessoa/v3" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" name="PessoaService" targetNamespace="https://service.fiesc.com.br/serviceSchema/pessoa/v3">
+  <wsdl:types>
+    <schema xmlns="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="https://service.fiesc.com.br/serviceSchema/pessoa/v3">
+			<complexType name="email">
+				<sequence>
+					<element maxOccurs="1" minOccurs="1" name="endereco" type="string"/>
+					<element maxOccurs="1" minOccurs="1" name="tipo" type="tns:tipoNF"/>
+				</sequence>
+			</complexType>
+			<simpleType name="tipoNF">
+				<restriction base="string">
+					<enumeration value="Cobranca"/>
+					<enumeration value="NFe"/>
+					<enumeration value="Cadastral"/>
+				</restriction>
+			</simpleType>
+			<complexType name="endereco">
+				<sequence>
+					<element maxOccurs="1" minOccurs="1" name="bairro" type="string"/>
+					<element maxOccurs="1" minOccurs="0" name="caixaPostal" type="string"/>
+					<element maxOccurs="1" minOccurs="1" name="cep" type="string"/>
+					<element maxOccurs="1" minOccurs="1" name="complemento" type="string"/>
+					<element maxOccurs="1" minOccurs="1" name="logradouro" type="string"/>
+					<element maxOccurs="1" minOccurs="1" name="municipio" type="string"/>
+					<element maxOccurs="1" minOccurs="1" name="numero" type="string"/>
+					<element maxOccurs="1" minOccurs="1" name="siglaEstado" type="string"/>
+					<element maxOccurs="1" minOccurs="1" name="siglaPais" type="string"/>
+					<element maxOccurs="1" minOccurs="1" name="tipo" type="tns:tiposEndereco"/>
+					<element maxOccurs="1" minOccurs="1" name="tipoLogradouro" type="tns:tiposLogradouro"/>
+				</sequence>
+			</complexType>
+			<simpleType name="tiposEndereco">
+				<restriction base="string">
+					<enumeration value="Cadastral"/>
+					<enumeration value="Cobrança"/>
+					<enumeration value="Entrega"/>
+				</restriction>
+			</simpleType>
+			<simpleType name="tiposLogradouro">
+				<restriction base="string">
+					<enumeration value="Aeroporto"/>
+					<enumeration value="Alameda"/>
+					<enumeration value="Área"/>
+					<enumeration value="Avenida"/>
+					<enumeration value="Campo"/>
+					<enumeration value="Chácara"/>
+					<enumeration value="Colônia"/>
+					<enumeration value="Condomínio"/>
+					<enumeration value="Conjunto"/>
+					<enumeration value="Distrito"/>
+					<enumeration value="Esplanada"/>
+					<enumeration value="Estação"/>
+					<enumeration value="Estrada"/>
+					<enumeration value="Favela"/>
+					<enumeration value="Fazenda"/>
+					<enumeration value="Feira"/>
+					<enumeration value="Jardim"/>
+					<enumeration value="Ladeira"/>
+					<enumeration value="Lago"/>
+					<enumeration value="Lagoa"/>
+					<enumeration value="Largo"/>
+					<enumeration value="Loteamento"/>
+					<enumeration value="Morro"/>
+					<enumeration value="Outros"/>
+					<enumeration value="Parque"/>
+					<enumeration value="Passarela"/>
+					<enumeration value="Pátio"/>
+					<enumeration value="Praça"/>
+					<enumeration value="Quadra"/>
+					<enumeration value="Recanto"/>
+					<enumeration value="Residencial"/>
+					<enumeration value="Rodovia"/>
+					<enumeration value="Rua"/>
+					<enumeration value="Setor"/>
+					<enumeration value="Sítio"/>
+					<enumeration value="Travessa"/>
+					<enumeration value="Trecho"/>
+					<enumeration value="Trevo"/>
+					<enumeration value="Vale"/>
+					<enumeration value="Vereda"/>
+					<enumeration value="Via"/>
+					<enumeration value="Viaduto"/>
+					<enumeration value="Viela"/>
+					<enumeration value="Vila"/>
+					<enumeration value="Praia"/>
+					<enumeration value="Núcleo"/>
+					<enumeration value="Calçada"/>
+				</restriction>
+			</simpleType>
+			<complexType name="telefone">
+				<sequence>
+					<element maxOccurs="1" minOccurs="1" name="ddd" type="string"/>
+					<element maxOccurs="1" minOccurs="1" name="telefone" type="string"/>
+					<element maxOccurs="1" minOccurs="1" name="tipo" type="tns:tiposTelefone"/>
+				</sequence>
+			</complexType>
+			<simpleType name="tiposTelefone">
+				<restriction base="string">
+					<enumeration value="Fixo"/>
+					<enumeration value="Celular"/>
+					<enumeration value="Fax"/>
+					<enumeration value="Residencial"/>
+					<enumeration value="Comercial"/>
+					<enumeration value="Recado"/>
+				</restriction>
+			</simpleType>
+			<complexType abstract="true" name="pessoa">
+				<sequence>
+					<element maxOccurs="unbounded" minOccurs="0" name="telefone" type="tns:telefone"/>
+					<element maxOccurs="3" minOccurs="0" name="email" type="tns:email"/>
+					<element maxOccurs="unbounded" minOccurs="1" name="endereco" type="tns:endereco"/>
+				</sequence>
+			</complexType>
+			<complexType name="pessoaFisica">
+				<complexContent>
+					<extension base="tns:pessoa">
+						<sequence>
+							<element maxOccurs="1" minOccurs="1" name="dataNascimento" type="date"/>
+							<element maxOccurs="1" minOccurs="1" name="genero" type="tns:tiposGenero"/>
+							<element maxOccurs="1" minOccurs="1" name="nome" type="string"/>
+							<element maxOccurs="1" minOccurs="1" name="nomeMae" type="string"/>
+							<element maxOccurs="1" minOccurs="0" name="nomePai" type="string"/>
+							<element maxOccurs="1" minOccurs="1" name="paisNascimento" type="string"/>
+							<element maxOccurs="1" minOccurs="1" name="racaCor" type="int"/>
+							<element maxOccurs="unbounded" minOccurs="1" name="funcaoPessoaFisica" type="tns:funcaoPessoaFisica"/>
+						</sequence>
+					</extension>
+				</complexContent>
+			</complexType>
+			<simpleType name="funcaoPessoaFisica">
+				<restriction base="string">
+					<enumeration value="Cliente"/>
+					<enumeration value="Fornecedor"/>
+					<enumeration value="Terceiro"/>
+					<enumeration value="Aluno"/>
+					<enumeration value="Autonomo"/>
+				</restriction>
+			</simpleType>
+			<simpleType name="tiposGenero">
+				<restriction base="string">
+					<enumeration value="M"/>
+					<enumeration value="F"/>
+				</restriction>
+			</simpleType>
+			<complexType name="pessoaFisicaNacional">
+				<complexContent>
+					<extension base="tns:pessoaFisica">
+						<sequence>
+							<element maxOccurs="1" minOccurs="1" name="cpf" type="tns:cpf"/>
+							<element maxOccurs="1" minOccurs="1" name="estadoCivil" type="tns:tiposEstadoCivil"/>
+							<element maxOccurs="1" minOccurs="1" name="municipioNascimento" type="string"/>
+							<element maxOccurs="1" minOccurs="1" name="orgaoEmissorRg" type="string"/>
+							<element maxOccurs="1" minOccurs="1" name="rg" type="string"/>
+							<element maxOccurs="1" minOccurs="1" name="siglaEstadoNascimento" type="string"/>
+						</sequence>
+					</extension>
+				</complexContent>
+			</complexType>
+			<simpleType name="cpf">
+				<restriction base="string">
+					<minLength value="14"/>
+					<maxLength value="14"/>
+					<pattern value="(\d{3}.\d{3}.\d{3}-\d{2})"/>
+				</restriction>
+			</simpleType>
+			<simpleType name="tiposEstadoCivil">
+				<restriction base="string">
+					<enumeration value="Solteiro"/>
+					<enumeration value="Casado"/>
+					<enumeration value="Divorciado"/>
+					<enumeration value="Viúvo"/>
+				</restriction>
+			</simpleType>
+			<complexType name="pessoaFisicaInternacional">
+				<complexContent>
+					<extension base="tns:pessoaFisica">
+						<sequence>
+							<element maxOccurs="1" minOccurs="1" name="cdi" type="string">
+								<annotation>
+									<documentation>
+										Carteira de Identidade de Estrangeiro - Documento oficial que
+										identifica o cidadão estrangeiro no Brasil.
+									</documentation>
+								</annotation>
+							</element>
+							<element maxOccurs="1" minOccurs="1" name="rne" type="string">
+								<annotation>
+									<documentation>
+										Registro Nacional de Estrangeiro - Concedido ao estrangeiro admitido
+										no Brasil na condição de temporário, permanente, asilado ou
+										refugiado, que é obrigado a se registrar e a se identificar no
+										Ministério da Justiça, através da Polícia Federal.
+									</documentation>
+								</annotation>
+							</element>
+						</sequence>
+					</extension>
+				</complexContent>
+			</complexType>
+			<complexType name="pessoaJuridica">
+				<complexContent>
+					<extension base="tns:pessoa">
+						<sequence>
+							<element maxOccurs="1" minOccurs="1" name="dataAbertura" type="date"/>
+							<element maxOccurs="1" minOccurs="1" name="funcao" type="tns:funcaoPessoaJuridica"/>
+							<element maxOccurs="1" minOccurs="1" name="nomeFantasia" type="string"/>
+						</sequence>
+					</extension>
+				</complexContent>
+			</complexType>
+			<simpleType name="funcaoPessoaJuridica">
+				<restriction base="string">
+					<enumeration value="Cliente"/>
+					<enumeration value="Fornecedor"/>
+				</restriction>
+			</simpleType>
+			<complexType name="pessoaJuridicaNacional">
+				<complexContent>
+					<extension base="tns:pessoaJuridica">
+						<sequence>
+							<element maxOccurs="1" minOccurs="1" name="cnpj" type="tns:cnpj">
+
+							</element>
+							<element maxOccurs="1" minOccurs="1" name="inscricaoestadual" type="string"/>
+							<element maxOccurs="1" minOccurs="1" name="inscricaoEstadualsubstituto" type="string"/>
+							<element maxOccurs="1" minOccurs="1" name="isentoInscricaoEstadual" type="string"/>
+							<element maxOccurs="1" minOccurs="1" name="isentoInscricaoSubstituto" type="string"/>
+							<element maxOccurs="1" minOccurs="1" name="razaoSocial" type="string"/>
+							<element maxOccurs="1" minOccurs="1" name="siglaEstadoInscricaoEstadual" type="string"/>
+						</sequence>
+					</extension>
+				</complexContent>
+			</complexType>
+			<simpleType name="cnpj">
+				<restriction base="string">
+					<minLength value="18"/>
+					<maxLength value="18"/>
+					<pattern value="(\d{2}.\d{3}.\d{3}/\d{4}-\d{2})"/>
+				</restriction>
+			</simpleType>
+			<element name="consultarPessoaFisicaNacionalRequest">
+				<complexType>
+					<sequence>
+						<element name="cpf" type="tns:cpf"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="consultarPessoaFisicaNacionalResponse">
+				<complexType>
+					<sequence>
+						<element name="pessoaFisicaNacional" type="tns:pessoaFisicaNacional"/>
+					</sequence>
+				</complexType>
+			</element>
+
+			<element name="consultarPessoaJuridicaNacionalRequest">
+				<complexType>
+					<sequence>
+						<element name="cnpj" type="tns:cnpj"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="consultarPessoaJuridicaNacionalResponse">
+				<complexType>
+					<sequence>
+						<element maxOccurs="unbounded" minOccurs="0" name="pessoaJuridicaNacional" type="tns:pessoaJuridicaNacional"/>
+					</sequence>
+				</complexType>
+			</element>
+
+			<element name="inserirPessoaJuridicaNacionalRequest">
+				<complexType>
+					<sequence>
+						<element name="pessoaJuridicaNacional" type="tns:pessoaJuridicaNacional"/>
+					</sequence>
+				</complexType>
+			</element>
+
+			<element name="inserirPessoaJuridicaNacionalResponse" type="tns:retorno"/>
+
+			<element name="inserirPessoaFisicaNacionalRequest">
+				<complexType>
+					<sequence>
+						<element name="pessoaFisicaNacional" type="tns:pessoaFisicaNacional"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="inserirPessoaFisicaNacionalResponse" type="tns:retorno"/>
+
+			<complexType name="retorno">
+				<sequence>
+					<element name="cnpjEmpresa" type="string"/>
+					<element name="documentoPessoa" type="string"/>
+					<element name="identificador" type="string"/>
+					<element name="resposta" type="string"/>
+					<element name="status" type="string"/>
+				</sequence>
+			</complexType>
+		</schema>
+  </wsdl:types>
+  <wsdl:message name="inserirPessoaJuridicaNacionalRequest">
+    <wsdl:part name="parameters" element="tns:inserirPessoaJuridicaNacionalRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="consultarPessoaFisicaNacionalResponse">
+    <wsdl:part name="parameters" element="tns:consultarPessoaFisicaNacionalResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="inserirPessoaFisicaNacionalRequest">
+    <wsdl:part name="parameters" element="tns:inserirPessoaFisicaNacionalRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="consultarPessoaJuridicaNacionalResponse">
+    <wsdl:part name="parameters" element="tns:consultarPessoaJuridicaNacionalResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="inserirPessoaFisicaNacionalResponse">
+    <wsdl:part name="parameters" element="tns:inserirPessoaFisicaNacionalResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="consultarPessoaFisicaNacionalRequest">
+    <wsdl:part name="parameters" element="tns:consultarPessoaFisicaNacionalRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="inserirPessoaJuridicaNacionalResponse">
+    <wsdl:part name="parameters" element="tns:inserirPessoaJuridicaNacionalResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="consultarPessoaJuridicaNacionalRequest">
+    <wsdl:part name="parameters" element="tns:consultarPessoaJuridicaNacionalRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="PessoaService">
+    <wsdl:operation name="consultarPessoaFisicaNacional">
+      <wsdl:input message="tns:consultarPessoaFisicaNacionalRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:consultarPessoaFisicaNacionalResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="consultarPessoaJuridicaNacional">
+      <wsdl:input message="tns:consultarPessoaJuridicaNacionalRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:consultarPessoaJuridicaNacionalResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="inserirPessoaJuridicaNacional">
+      <wsdl:input message="tns:inserirPessoaJuridicaNacionalRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:inserirPessoaJuridicaNacionalResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="inserirPessoaFisicaNacional">
+      <wsdl:input message="tns:inserirPessoaFisicaNacionalRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:inserirPessoaFisicaNacionalResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="PessoaServiceSOAP" type="tns:PessoaService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="consultarPessoaFisicaNacional">
+      <soap:operation soapAction=""/>
+    <wsaw:UsingAddressing required="false"/>
+    <wsp:PolicyReference URI="#WSAddressingPessoaServiceSoapBinding_WSAM_Addressing_Policy"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="consultarPessoaJuridicaNacional">
+      <soap:operation soapAction=""/>
+    <wsaw:UsingAddressing required="false"/>
+    <wsp:PolicyReference URI="#WSAddressingPessoaServiceSoapBinding_WSAM_Addressing_Policy"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="inserirPessoaJuridicaNacional">
+      <soap:operation soapAction=""/>
+    <wsaw:UsingAddressing required="true"/>
+    <wsp:PolicyReference URI="#WSAddressingPessoaServiceSoapBinding_WSAM_Addressing_Policy"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="inserirPessoaFisicaNacional">
+      <soap:operation soapAction=""/>
+    <wsaw:UsingAddressing required="true"/>
+    <wsp:PolicyReference URI="#WSAddressingPessoaServiceSoapBinding_WSAM_Addressing_Policy"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="PessoaService">
+    <wsdl:port name="PessoaServiceSOAP" binding="tns:PessoaServiceSOAP">
+      <soap:address location="http://services.fiesc.com.br/pessoa/3.0.0"/>
+    </wsdl:port>
+  </wsdl:service>
+    <wsp:Policy wsu:Id="WSAddressingPessoaServiceSoapBinding_WSAM_Addressing_Policy">
+		<wsam:Addressing wsp:Optional="true">
+			<wsp:Policy/>
+		</wsam:Addressing>
+	</wsp:Policy>
+</wsdl:definitions>
